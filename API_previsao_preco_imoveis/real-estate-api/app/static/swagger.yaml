@@ -1,0 +1,84 @@
+openapi: 3.0.0
+info:
+  title: API de Previsão de Aluguel
+  version: "1.0"
+paths:
+  /predict:
+    post:
+      summary: Prever aluguel com base nas características do imóvel
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - city
+                - rooms
+                - bathrooms
+                - parking
+                - insurance
+              properties:
+                city:
+                  type: string
+                  example: São Paulo
+                rooms:
+                  type: integer
+                  example: 2
+                bathrooms:
+                  type: integer
+                  example: 1
+                parking:
+                  type: integer
+                  example: 1
+                insurance:
+                  type: number
+                  format: float
+                  example: 120.50
+      responses:
+        '200':
+          description: Previsão realizada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  predicted_rent:
+                    type: number
+                    format: float
+                    example: 3200.50
+        '400':
+          description: Erro de validação dos dados
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Campo obrigatório ausente: city"
+        '500':
+          description: Erro interno do servidor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Erro inesperado
+
+  /health:
+    get:
+      summary: Verificar se a API está online
+      responses:
+        '200':
+          description: API está funcionando
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: online
