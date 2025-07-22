@@ -1,2 +1,2 @@
-# data_science
-Meu repositório onde guardo projetos envolvendo dados.
+# portifólio de Projetos 
+Meu repositório onde guardo projetos pessoais que estou desenvolvendo.
