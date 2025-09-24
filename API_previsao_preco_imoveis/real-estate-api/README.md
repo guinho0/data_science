@@ -32,7 +32,9 @@ project/
 
 ### 1. Ative o Ambiente Virtual e Instale as dependências 
 
-```.\venv\Scripts\Activate.ps1
+```bash
+.\venv\Scripts\Activate.ps1
+```
 
 ```bash
 pip install -r requirements.txt
