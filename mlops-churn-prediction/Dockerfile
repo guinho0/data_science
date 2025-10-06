@@ -6,6 +6,7 @@ ENV PYTHONUNBUFFERED 1
 
 # Define o diretório de trabalho
 WORKDIR /app
+ENV PYTHONPATH=/app
 
 # Copia o arquivo de requisitos e instala as dependências
 COPY requirements.txt /app/
