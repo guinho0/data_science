@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  # 1. Serviço de Banco de Dados PostgreSQL
+  db:
+    image: postgres:14-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: churn_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # 2. Serviço da API (sua aplicação Python)
+  api:
+    build: .
+    command: uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_NAME: churn_db
+      DB_USER: user
+      DB_PASS: password
+
+volumes:
+  postgres_data:

@@ -1,0 +1,14 @@
+# Dependências para Manipulação de Dados e ML
+pandas
+scikit-learn
+numpy
+
+# Dependências para a API
+fastapi
+uvicorn[standard]
+
+# Dependências para a Conexão SQL
+psycopg2-binary
+
+# Dependências para Testes
+pytest
