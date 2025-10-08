@@ -26,6 +26,8 @@ services:
       DB_NAME: churn_db
       DB_USER: user
       DB_PASS: password
+    volumes:
+    - .:/app # Monta a pasta local do projeto na pasta /app do container
 
 volumes:
   postgres_data:
