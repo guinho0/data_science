@@ -10,25 +10,28 @@ MODEL_PATH = os.path.join("models", "model.pkl")
 
 def train_and_save_model():
     """
-    1. Carrega os dados do PostgreSQL.
-    2. Treina um modelo simples (Regressão Logística).
-    3. Salva o modelo treinado no disco.
+    1. Carrega os dados limpos do PostgreSQL.
+    2. Treina um modelo (Regressão Logística).
+    3. Salva o modelo serializado no disco.
     """
     conn = None
     try:
         conn = get_db_connection()
         
-        # 1. Consulta SQL para carregar os dados (Prática de SQL!)
+        # 1. Consulta SQL para carregar os dados
         df = pd.read_sql(f"SELECT * FROM clientes", conn)
         print(f"Dados carregados do PostgreSQL: {len(df)} linhas.")
         
-        # Simples Feature Engineering/Encoding (Mapeando strings para números)
-        df['gender'] = df['gender'].map({'Female': 0, 'Male': 1})
-        df['partner'] = df['partner'].map({'Yes': 1, 'No': 0})
+        # O mapeamento de strings não é mais necessário aqui, pois o ETL já fez isso.
         
         # Preparação X (features) e y (target)
-        X = df[['tenure', 'monthly_charges', 'gender', 'partner']] # Exemplo simplificado
+        # Selecionamos as 4 features que serão usadas para a predição na API
+        X = df[['tenure', 'monthly_charges', 'gender', 'partner']] 
         y = df['churn']
+        
+        # CORREÇÃO CRUCIAL: Garante que não haja NaNs que o ETL possa ter deixado
+        # (Embora o ETL devesse ter limpado, esta é uma linha de robustez de ML)
+        X = X.fillna(0.0) 
         
         # Divisão de dados
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -37,7 +40,7 @@ def train_and_save_model():
         model = LogisticRegression(solver='liblinear', random_state=42)
         model.fit(X_train, y_train)
         
-        # Avaliação (Opcional, mas importante!)
+        # Avaliação
         y_pred = model.predict(X_test)
         accuracy = accuracy_score(y_test, y_pred)
         print(f"Acurácia do Modelo no Teste: {accuracy:.4f}")
