@@ -5,7 +5,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 st.set_page_config(layout="wide")
-st.title("🎬 Análise de Avaliações de Filmes - MovieLens 100K")
+st.title(" Análise de Avaliações de Filmes - MovieLens 100K")
 
 # Carregar dados com cache
 @st.cache_data
